@@ -17,14 +17,87 @@ function getLiulan() {
     if (!liulans.isEmpty()) {
         for (var i = 0; i < liulans.length; i++) {
             let b = liulans[i];
-            if (!b.text().includes("已完成") && !b.text().includes("浏览首页") && !b.text().includes("淘宝人生") && !b.text().includes("我的淘宝")) {
+            let t = b.text();
+            if (!t.includes("已完成") && !t.includes("浏览首页") && !t.includes("淘宝人生") && !t.includes("我的淘宝")) {
                 log(b.text());
                 return b;
             }
         }
-        toastLog("已完成浏览")
-        return 0;
-    } else {
+        toastLog("已完成店铺浏览")
+        //特殊任务
+        for (var i = 0; i < liulans.length; i++) {
+            let b = liulans[i];
+            let t = b.text();
+            //自定义特殊任务点击  1080, 1920可用 别的没试过 不行就注释掉
+            if (t.includes("浏览首页")) {
+                b.click();
+                sleep(20000);
+                sleep(500);
+                swipe(500, 500, 500, 1500, 1000);
+                sleep(500);
+                swipe(500, 500, 500, 1500, 1000);
+                sleep(500);
+                swipe(500, 500, 500, 1500, 1000);
+                sleep(500);
+                swipe(500, 500, 500, 1500, 1000);
+                sleep(500);
+                //bounds = (553,1091,1054,1408)
+                click(803, 1250);
+                sleep(2000);
+                click(957, 1620);   //点击充能量
+                sleep(2000)
+                let a = className("android.view.View").text("第3天").findOne(2000);
+                if (a) {
+                    console.info("浏览首页成功");
+                    return getLiulan();
+                }
+                else {
+                    return 0;
+                }
+            }
+            else if (t.includes("淘宝人生")) {
+                b.click();
+                sleep(20000);
+                click(525, 1445);
+                sleep(500);
+                back();
+                sleep(500);
+                click(543, 1409);
+                sleep(2000)
+                let a = className("android.view.View").text("第3天").findOne(2000);
+                if (a) {
+                    console.info("淘宝人生成功");
+                    return getLiulan();
+                } else {
+                    return 0;
+                }
+            }
+            else {
+                //其他
+                let qd = className("android.view.View").textEndsWith("去签到").findOne(2000);
+                if (qd) {
+                    qd.click();
+                    className("android.support.v7.widget.RecyclerView").scrollable(true).depth(16).findOne().children().forEach(child => {
+                        var target = child.findOne(className("android.view.View").desc("立即打卡"));
+                        target.click();
+                    });
+                    sleep(20000);
+                    click(957, 1620);   //点击充能量
+                    sleep(2000)
+                    let a = className("android.view.View").text("第3天").findOne(2000);
+                    if (a) {
+                        console.info("立即打卡成功");
+                        return getLiulan();
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    return 0;
+                }
+            }
+        }
+    }
+    else {
         toastLog("寻找浏览出错")
         return 0;
     }
@@ -58,7 +131,7 @@ function getGuangdian() {
         return 0;
     }
 }
-
+ 
 function getLiulan() {
     var button = className("android.view.View").textStartsWith("浏览").find();
     if (!button.isEmpty()) {
@@ -96,8 +169,8 @@ function isHuadong() {
     toastLog("寻找滑动结束");
     if (huadong) {
         toastLog("滑动");
-        sleep(500);
-        swipe(500, 1200, 500, 300, 1500);
+        swipe(500, 1200, 500, 300, 1000);
+        swipe(500, 1200, 500, 300, 1000);
         return true;
     }
     else {
@@ -113,7 +186,7 @@ function collect() {
         sleep(17000 + randomtime);
     }
     else {
-        sleep(19000);
+        sleep(19000 + randomtime);
     }
     toastLog("领取结束返回");
     back();
@@ -121,6 +194,10 @@ function collect() {
 }
 
 function main() {
+    var height = device.height;
+    var width = device.width;
+    setScreenMetrics(width, height);
+
     toastLog("请在五秒内切换到活动页");
     sleep(5000);
     let clicknum = 0;
@@ -133,8 +210,6 @@ function main() {
             break;
         }
 
-
-
         for (let i = 0; i < buttons.length; i++) {
             if (buttons[i]) {
 
@@ -142,6 +217,7 @@ function main() {
 
                 buttons[i].click();
                 collect();
+                toastLog("-----------------------")
             }
         }
 
