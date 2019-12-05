@@ -170,7 +170,6 @@ function isHuadong() {
     if (huadong) {
         toastLog("滑动");
         swipe(500, 1200, 500, 300, 1000);
-        sleep(500);
         swipe(500, 1200, 500, 300, 1000);
         return true;
     }
