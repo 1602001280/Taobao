@@ -8,8 +8,76 @@ function initButton() {
     } else {
         var sosuo = getSosuo();
         buttons[1] = sosuo;
-        return;
+        if (sosuo) {
+            return;
+        } else {
+            var qiandao = getQiandao();
+            buttons[2] = qiandao;
+            return;
+        }
     }
+}
+
+function getQiandao() {
+    var sosuos = className("android.view.View").textEndsWith("去签到").find();
+    if (!sosuos.isEmpty()) {
+        for (var i = 0; i < sosuos.length; i++) {
+            let b = sosuos[i];
+            if (!b.text().includes("已完成")) {
+                log(b.text());
+                b.click();
+                sleep(5000);
+                let target = className("android.view.View").desc("立即打卡").findOne(5000);
+                if (target) {
+                    click(target.bounds().centerX(), target.bounds().centerY());
+                    //target.parent().parent().click();
+                    sleep(10000);
+                    click(957, 1620);   //点击充能量
+                    sleep(2000);
+                    let a = className("android.view.View").text("第3天").findOne(2000);
+                    if (a) {
+                        console.info("立即打卡成功");
+                        return initButton();
+                    } else {
+                        toastLog("返回失败")
+                        return 0;
+                    }
+                } else {
+                    toastLog("打卡失败")
+                    return 0;
+                }
+            }
+            else{
+                toastLog("已完成签到")
+                return 0;
+            }
+        }
+    } else {
+        toastLog("寻找签到出错")
+        return 0;
+    }
+    /*
+    let qd = className("android.view.View").textEndsWith("去签到").findOne(2000);
+    if (qd) {
+        qd.click();
+        className("android.support.v7.widget.RecyclerView").scrollable(true).depth(16).findOne().children().forEach(child => {
+            var target = child.findOne(className("android.view.View").desc("立即打卡"));
+            target.click();
+        });
+        sleep(20000);
+        click(957, 1620);   //点击充能量
+        sleep(2000)
+        let a = className("android.view.View").text("第3天").findOne(2000);
+        if (a) {
+            console.info("立即打卡成功");
+            return 0;
+        } else {
+            return 0;
+        }
+    } else {
+        return 0;
+    }
+    */
 }
 
 function getLiulan() {
@@ -73,27 +141,7 @@ function getLiulan() {
                 }
             }
             else {
-                //其他
-                let qd = className("android.view.View").textEndsWith("去签到").findOne(2000);
-                if (qd) {
-                    qd.click();
-                    className("android.support.v7.widget.RecyclerView").scrollable(true).depth(16).findOne().children().forEach(child => {
-                        var target = child.findOne(className("android.view.View").desc("立即打卡"));
-                        target.click();
-                    });
-                    sleep(20000);
-                    click(957, 1620);   //点击充能量
-                    sleep(2000)
-                    let a = className("android.view.View").text("第3天").findOne(2000);
-                    if (a) {
-                        console.info("立即打卡成功");
-                        return getLiulan();
-                    } else {
-                        return 0;
-                    }
-                } else {
-                    return 0;
-                }
+                return 0;
             }
         }
     }
