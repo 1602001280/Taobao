@@ -120,6 +120,7 @@ function getLiulan() {
                     return getLiulan();
                 }
                 else {
+                    toastLog("返回失败")
                     return 0;
                 }
             }
@@ -129,7 +130,7 @@ function getLiulan() {
                 click(525, 1445);
                 sleep(500);
                 back();
-                sleep(500);
+                sleep(2000);
                 click(543, 1409);
                 sleep(2000)
                 let a = className("android.view.View").text("第3天").findOne(2000);
@@ -137,6 +138,7 @@ function getLiulan() {
                     console.info("淘宝人生成功");
                     return getLiulan();
                 } else {
+                    toastLog("返回失败")
                     return 0;
                 }
             }
