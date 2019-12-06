@@ -34,7 +34,7 @@ function getQiandao() {
                     sleep(10000);
                     click(957, 1620);   //点击充能量
                     sleep(2000);
-                    let a = className("android.view.View").text("第3天").findOne(2000);
+                    let a = className("android.view.View").text("x10000").findOne(2000);
                     if (a) {
                         console.info("立即打卡成功");
                         return initButton();
@@ -67,7 +67,7 @@ function getQiandao() {
         sleep(20000);
         click(957, 1620);   //点击充能量
         sleep(2000)
-        let a = className("android.view.View").text("第3天").findOne(2000);
+        let a = className("android.view.View").text("x10000").findOne(2000);
         if (a) {
             console.info("立即打卡成功");
             return 0;
@@ -114,7 +114,7 @@ function getLiulan() {
                 sleep(2000);
                 click(957, 1620);   //点击充能量
                 sleep(2000)
-                let a = className("android.view.View").text("第3天").findOne(2000);
+                let a = className("android.view.View").text("x10000").findOne(2000);
                 if (a) {
                     console.info("浏览首页成功");
                     return getLiulan();
@@ -133,7 +133,7 @@ function getLiulan() {
                 sleep(2000);
                 click(543, 1409);
                 sleep(2000)
-                let a = className("android.view.View").text("第3天").findOne(2000);
+                let a = className("android.view.View").text("x10000").findOne(2000);
                 if (a) {
                     console.info("淘宝人生成功");
                     return getLiulan();
