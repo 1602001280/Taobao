@@ -25,7 +25,7 @@ function getQiandao() {
             let b = sosuos[i];
             if (!b.text().includes("已完成")) {
                 log(b.text());
-                console.info("点击去签到");
+                console.info(b.text());
                 b.click();
                 sleep(5000);
                 let target = className("android.view.View").desc("立即打卡").findOne(5000);
@@ -87,7 +87,7 @@ function getLiulan() {
         for (var i = 0; i < liulans.length; i++) {
             let b = liulans[i];
             let t = b.text();
-            if (!t.includes("已完成") && !t.includes("浏览首页") && !t.includes("淘宝人生") && !t.includes("我的淘宝")) {
+            if (!t.includes("已完成") && !t.includes("浏览首页") && !t.includes("淘宝人生") && !t.includes("我的淘宝") && !t.includes("去首页")) {
                 log(b.text());
                 return b;
             }
@@ -98,8 +98,8 @@ function getLiulan() {
             let b = liulans[i];
             let t = b.text();
             //自定义特殊任务点击  1080, 1920可用 别的没试过 不行就注释掉
-            if (t.includes("浏览首页")) {
-                console.info("点击浏览首页");
+            if (t.includes("浏览首页")||t.includes("去首页")) {
+                console.info(t);
                 b.click();
                 sleep(20000);
                 sleep(500);
@@ -128,7 +128,7 @@ function getLiulan() {
                 }
             }
             else if (t.includes("淘宝人生")) {
-                console.info("点击淘宝人生");
+                console.info(t);
                 b.click();
                 sleep(20000);
                 click(525, 1445);
