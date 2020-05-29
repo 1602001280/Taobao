@@ -1,8 +1,9 @@
-var height = device.height;
-var width = device.width;
+var height = 0;
+var width = 0;
 var button = null;
 var flag = 0;
-var timeout = 3;
+var timeout = 5;
+var repeat = 2; //每个账户检查几次
 var users = { "c***3": 0, "黑***5": 0, "芍***离": 0 };
 
 main()
@@ -26,13 +27,15 @@ function main() {
 
 function initReady() {
     auto.waitFor();
+    height = device.height;
+    width = device.width;
     console.log("\n设备宽" + width + "\n设备高" + height + "\n手机型号" + device.model + "\n安卓版本" + device.release);
     if (height == 0 || width == 0) {
         console.error("设备宽高获取失败");
         engines.myEngine().forceStop();
     }
     else {
-        setScreenMetrics(1080, 2160);
+        setScreenMetrics(width, height);
     }
 }
 
@@ -65,6 +68,11 @@ function initView() {
         button.click();
         sleep(500);
     }
+    button = findButton("开心收下");
+    if (button) {
+        button.click();
+        sleep(500);
+    }
     button = findButton("立即查看");
     if (button) {
         button.click();
@@ -92,7 +100,7 @@ function initAPP() {
         packageName: "com.taobao.taobao",
     });
     console.log("等待淘宝主页Activity");
-    waitForActivity("com.taobao.tao.TBMainActivity",1000);
+    waitForActivity("com.taobao.tao.TBMainActivity", 1000);
     //app.launchApp("手机淘宝")
 }
 
@@ -108,6 +116,11 @@ function browseClick() {
             }
             sleep(15000);
             back();
+            if (findButton("x5000")) {
+                console.log("返回成功");
+            } else {
+                initView();
+            }
         }
         else {
             if (t.includes("浏览首页")) {
@@ -259,9 +272,9 @@ function accountSwitch() {
     if (button) {
         let currentuser = button.parent().child(button.indexInParent() - 1).text();
         console.log("当前用户" + currentuser);
-        users[currentuser] = 1;
+        users[currentuser]++;
         for (let user in users) {
-            if (users[user] == 0) {
+            if (users[user] < repeat && user != currentuser) {
                 console.info("切换账户" + user);
                 button = findButton(user);
                 if (button) {
