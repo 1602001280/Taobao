@@ -1,4 +1,10 @@
+//console.log(desc("任务已完成").findOne(1000).bounds());
 
+click(1080/2,1396);
+
+
+
+/*
 
 
 
@@ -88,7 +94,7 @@ function accountSwitch() {
         }
     }
     */
-
+/*
     // 我的淘宝 首页 设置 clickable为true但是点了没用 有用的是里面的child(0) 但是clickable为false点不了
     button = findButton("我的淘宝");
     if (button) {
@@ -153,7 +159,7 @@ function accountSwitch() {
 }
 
 
-
+*/
 
 
 /*function allfun() {
